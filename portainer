@@ -1,0 +1,10 @@
+docker service create \
+    --name portainer \
+    --constraint 'node.role == manager' \
+    --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+    --mount type=bind,src=/share/portainer,dst=/data \
+    --network traefik \
+    --label traefik.port=9000 \
+    --label "traefik.docker.network=traefik" \
+    portainer/portainer \
+    -H unix:///var/run/docker.sock

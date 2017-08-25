@@ -1,0 +1,16 @@
+docker service create -d\
+    --name orbiter_new \
+    --with-registry-auth \
+    --mount type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock \
+    --constraint node.role==manager \
+    --network traefik \
+    --network monitornet \
+    --label "traefik.port=8000" \
+    --label "traefik.enable=true" \
+    --label "traefik.docker.network=traefik" \
+    --label "orbiter=true" \
+    -e DOCKER_HOST=unix:///var/run/docker.sock \
+    -e ORBITER_AUTH_USER=root \
+    -e ORBITER_AUTH_PASS=asdf10-orb \
+    docker.facilitylive.int/orbiter:mbovo_new daemon -debug
+    

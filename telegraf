@@ -1,0 +1,17 @@
+docker service create \
+    --constraint=node.role==worker \
+    --name telegraf_worker \
+    --mode global \
+    --network monitornet \
+    --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+    --mount type=bind,src=/share/telegraf/telegraf_worker.conf,dst=/etc/telegraf/telegraf.conf \
+    telegraf 
+
+docker service create \
+    --constraint=node.role==manager \
+    --mode global \
+    --name telegraf_manager \
+    --network monitornet \
+    --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+    --mount type=bind,src=/share/telegraf/telegraf_manager.conf,dst=/etc/telegraf/telegraf.conf \
+    telegraf 

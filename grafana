@@ -1,0 +1,10 @@
+docker service create --name monitor \
+    --constraint=node.role==manager \
+    --mount type=bind,source=/share/grafana,target=/var/lib/grafana \
+    --network traefik \
+    --network monitornet \
+    --label "traefik.docker.network=traefik" \
+    --label traefik.port=3000  \
+    --label "traefik.frontend.rule=Host:monitor.cloud.facilitylive.int" \
+    --label "traefik.enable=true" \
+    grafana/grafana

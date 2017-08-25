@@ -1,0 +1,14 @@
+docker service create --name kapacitor \
+    --constraint=node.role==manager \
+    --name kapacitor \
+    --hostname kapacitor \
+    --network monitornet \
+    --publish 9092:9092 \
+    --mount type=bind,src=/share/kapacitor,dst=/var/lib/kapacitor \
+    -e KAPACITOR_INFLUXDB_0_URLS_0=http://monitordb:8086 \
+    -e KAPACITOR_HIPCHAT_ENABLED=true \
+    -e KAPACITOR_HIPCHAT_URL= \
+    -e KAPACITOR_HIPCHAT_ROOM= \
+    -e KAPACITOR_HIPCHAT_TOKEN= \
+    -e KAPACITOR_HIPCHAT_GLOBAL=true \
+    kapacitor

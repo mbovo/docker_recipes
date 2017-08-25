@@ -1,0 +1,6 @@
+docker service create --name monitordb \
+    --constraint=node.role==manager \
+    --mount type=bind,source=/share/influxdb,target=/var/lib/influxdb \
+    --network monitornet \
+    -p 8086:8086 \
+    influxdb

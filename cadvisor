@@ -1,0 +1,19 @@
+docker service create --name cadvisor \
+    --network=monitoring \
+    --mode global  \
+    --mount type=bind,source=/,target=/rootfs,readonly=true \
+    --mount type=bind,source=/var/run,target=/var/run,readonly=false \
+    --mount type=bind,source=/sys,target=/sys,readonly=true \
+    --mount type=bind,source=/sys/fs/cgroup,target=/sys/fs/cgroup,readonly=true \
+    --mount type=bind,source=/var/lib/docker/,target=/var/lib/docker,readonly=true \
+    -p 8090:8080 \
+    google/cadvisor \
+    -storage_driver="influxdb" \
+    -storage_driver_host="monitordb:8086" \
+    -storage_driver_db="cadvisor" \
+    -storage_driver_user="root" \
+    -storage_driver_password="root"
+
+    -storage_driver_table="stats" \    
+    -storage_driver=elasticsearch \
+    -storage_driver_es_host="http://elasticsearch:9200" 

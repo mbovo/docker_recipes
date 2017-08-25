@@ -1,0 +1,16 @@
+docker service create \
+--detach \
+--with-registry-auth \
+--name jenkins-agent \
+--constraint engine.labels.com.facilitylive.devops.jenkins==slave \
+--user jenkins \
+--replicas 1 \
+--label "orbiter=true" \
+--label "orbiter.cooldown=60" \
+-e LABELS=docker-agent-devops \
+--mount type=bind,src=/var/run/docker.sock,target=/var/run/docker.sock \
+--mount type=bind,src=/share/jenkins,target=/tmp/jenkins \
+--mount type=bind,src=/tmp/m2_repo,target=/home/jenkins/.m2/repository \
+--secret source=jenkins,target=jenkins \
+docker.facilitylive.int/deploy/flep_orchestrator:6 bash /opt/jenkins-agent/entrypoint.sh
+

@@ -1,0 +1,8 @@
+docker service create --name kibana \
+    --constraint node.role==manager \
+    --network=monitoring \
+    -e ELASTICSEARCH_URL="http://elasticsearch:9200" \
+    --network=traefiknet \
+    --label "traefik.docker.network=traefiknet" \
+    --label "traefik.port=5601" \
+    kibana:4.6.0

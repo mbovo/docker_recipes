@@ -1,0 +1,7 @@
+docker service create --name elasticsearch \
+  --network=monitoring \
+  --constraint node.hostname==itpv-dtpoc-q061.facilitylive.int \
+  --constraint com.facilitylive.devops.jenkins==slave
+  --mount type=bind,target=/usr/share/elasticsearch/data,source=/share/poc1/elasticsearch \
+  -e ES_JAVA_OPTS="-Xms3g -Xmx3g" \
+  elasticsearch:2.4.1
